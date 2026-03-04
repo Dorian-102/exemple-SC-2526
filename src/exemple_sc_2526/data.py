@@ -38,23 +38,31 @@ class SolutionTransport(BaseModel):
     probleme: ProblemeTransport
     solution: list[NonNegativeFloat]
 
+    @property
+    def nombre_clients(self):
+        return len(self.probleme.clients)
+
+    @property
+    def nombre_entrepots(self):
+        return len(self.probleme.entrepots)
+
     @model_validator(mode="after")
     def verifie_compatibilite(self) -> Self:
         if len(self.solution) != len(self.probleme.couts_unitaires):
             msg = "il doit y avoir exactement une quantité transportée par couple entrepot/client"
             raise ValueError(msg)
-        for indice_entrepot in range(len(self.probleme.entrepots)):
+        for indice_entrepot in range(self.nombre_entrepots):
             expedition = sum(
                 self[indice_entrepot, indice_client]
-                for indice_client in range(len(self.probleme.clients))
+                for indice_client in range(self.nombre_clients)
             )
             if expedition > self.probleme.entrepots[indice_entrepot]:
                 msg = f"Trop expédié depuis l'entrepot d'indice {indice_entrepot}"
                 raise ValueError(msg)
-        for indice_client in range(len(self.probleme.clients)):
+        for indice_client in range(self.nombre_clients):
             reception = sum(
                 self[indice_entrepot, indice_client]
-                for indice_entrepot in range(len(self.probleme.entrepots))
+                for indice_entrepot in range(self.nombre_entrepots)
             )
             if reception != self.probleme.clients[indice_client]:
                 msg = f"Le client d'indice {indice_client} n'a pas reçu la bonne quantité de marchandise"
