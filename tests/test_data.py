@@ -36,6 +36,15 @@ def test_solution_transport():
     assert isinstance(solution, SolutionTransport)
 
 
+def test_solution_transport_getitem():
+    probleme = ProblemeTransport(
+        entrepots=[1.0, 2.0], clients=[1.0], couts_unitaires=[1.0, 1.0]
+    )
+    solution = SolutionTransport(probleme=probleme, solution=[1.0, 0.0])
+    assert solution[0, 0] == 1.0
+    assert solution[1, 0] == 0.0
+
+
 def test_verifications_solution_transport_dimension():
     probleme = ProblemeTransport(entrepots=[2.0], clients=[1.0], couts_unitaires=[1.0])
     with pytest.raises(ValidationError):
