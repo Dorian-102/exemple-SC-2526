@@ -26,3 +26,25 @@ def test_verifications_probleme_transport_couts():
 def test_verifications_probleme_transport_quantites():
     with pytest.raises(ValidationError):
         ProblemeTransport(entrepots=[1.0], clients=[2.0], couts_unitaires=[1.0])
+
+
+def test_verifications_solution_transport_dimension():
+    probleme = ProblemeTransport(entrepots=[2.0], clients=[1.0], couts_unitaires=[1.0])
+    with pytest.raises(ValidationError):
+        SolutionTransport(probleme=probleme, solution=[1.0, 1.0])
+
+
+def test_verifications_solution_transport_livraison():
+    probleme = ProblemeTransport(
+        entrepots=[1.0, 2.0], clients=[2.0], couts_unitaires=[1.0, 1.0]
+    )
+    with pytest.raises(ValidationError):
+        SolutionTransport(probleme=probleme, solution=[1.0, 0.0])
+
+
+def test_verifications_solution_transport_stock():
+    probleme = ProblemeTransport(
+        entrepots=[1.0, 2.0], clients=[2.0], couts_unitaires=[1.0, 1.0]
+    )
+    with pytest.raises(ValidationError):
+        SolutionTransport(probleme=probleme, solution=[2.0, 0.0])
