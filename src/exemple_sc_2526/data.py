@@ -44,3 +44,7 @@ class SolutionTransport(BaseModel):
             msg = "il doit y avoir exactement une quantité transportée par couple entrepot/client"
             raise ValueError(msg)
         return self
+
+    def __getitem__(self, indice: tuple[int, int]) -> NonNegativeFloat:
+        i, j = indice
+        return self.solution[i * len(self.probleme.clients) + j]
