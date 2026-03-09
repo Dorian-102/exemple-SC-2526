@@ -31,13 +31,12 @@ def test_construction_v2():
         couts_unitaires=[1.0, 1.0, 1.0, 1.0],
     )
     Aeq, Aub = construction_matrices(probleme=probleme)
-    assert Aeq.shape == (4, 4)
-    assert Aub.shape == (4, 4)
-    # assert Aeq == np.array([[1.0]])
-    # assert Aub == np.array([[1.0]])
+    assert Aeq.shape == (2, 4)
+    assert Aub.shape == (2, 4)
+    assert np.array_equal(Aeq, np.array([[1.0, 0.0, 1.0, 0.0], [0.0, 1.0, 0.0, 1.0]]))
+    assert np.array_equal(Aub, np.array([[1.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 1.0]]))
 
 
-@pytest.mark.xfail
 def test_resolution_simple():
     """Problème simplissime."""
     probleme = ProblemeTransport(
@@ -53,7 +52,6 @@ def test_resolution_simple():
     assert calculee == attendue
 
 
-@pytest.mark.xfail
 def test_resolution_niveau2():
     """Problème simplissime."""
     probleme = ProblemeTransport(
@@ -69,7 +67,6 @@ def test_resolution_niveau2():
     assert calculee == attendue
 
 
-@pytest.mark.xfail
 def test_resolution_niveau2_dual():
     """Problème simplissime."""
     probleme = ProblemeTransport(
@@ -85,7 +82,6 @@ def test_resolution_niveau2_dual():
     assert calculee == attendue
 
 
-@pytest.mark.xfail
 def test_resolution_niveau3():
     """Problème simplissime."""
     probleme = ProblemeTransport(
