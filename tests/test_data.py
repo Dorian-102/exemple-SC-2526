@@ -45,6 +45,15 @@ def test_solution_transport_getitem():
     assert solution[1, 0] == 0.0
 
 
+def test_solution_transport_proprietes():
+    probleme = ProblemeTransport(
+        entrepots=[1.0, 2.0], clients=[1.0], couts_unitaires=[1.0, 1.0]
+    )
+    solution = SolutionTransport(probleme=probleme, solution=[1.0, 0.0])
+    assert solution.nombre_entrepots == 2
+    assert solution.nombre_clients == 1
+
+
 def test_verifications_solution_transport_dimension():
     probleme = ProblemeTransport(entrepots=[2.0], clients=[1.0], couts_unitaires=[1.0])
     with pytest.raises(ValidationError):
